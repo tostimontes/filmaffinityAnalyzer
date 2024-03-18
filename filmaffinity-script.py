@@ -4,10 +4,24 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
+import tkinter as tk
+from tkinter import filedialog
 import pandas as pd
 import os
 import time
 import csv
+
+
+def select_file():
+    root = tk.Tk()
+    root.withdraw()  # Hide the main Tkinter window
+
+    # Open a file dialog and get the selected file path
+    file_path = filedialog.askopenfilename(title="Select File")
+
+    root.destroy()  # Close the Tkinter window
+
+    return file_path
 
 
 def read_file(file_path):
@@ -32,7 +46,6 @@ def search_filmaffinity(movie_series_list):
 
     # Initialize Selenium WebDriver
     chrome_options = Options()
-    # chrome_options.add_argument("--headless")  # Run in headless mode (without opening a window)
     driver = webdriver.Chrome(options=chrome_options)
 
     for movie_series in movie_series_list:
@@ -142,8 +155,8 @@ def search_filmaffinity(movie_series_list):
     return movies_df
 
 
-# Path to the file uploaded by the user
-file_path = r"C:\Users\Aitor\Google Drive\Kode\projects\passion\filmaffinityAnalyzer\title_list.txt"
+# Call the function and store the file path
+file_path = select_file()
 
 # Read the file
 movies_series_list = read_file(file_path)
